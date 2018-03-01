@@ -11,7 +11,7 @@ using System;
 namespace Posts.DataAccess.Migrations
 {
     [DbContext(typeof(DefaultDbContext))]
-    [Migration("20180301183528_InitialCreate")]
+    [Migration("20180301185156_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,6 +36,8 @@ namespace Posts.DataAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("PostId");
+
                     b.ToTable("Comments");
                 });
 
@@ -55,6 +57,14 @@ namespace Posts.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("Posts.DomainEntities.Entities.Comment", b =>
+                {
+                    b.HasOne("Posts.DomainEntities.Entities.Post")
+                        .WithMany("Comments")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
