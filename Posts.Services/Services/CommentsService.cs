@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Posts.DataAccess.Interfaces;
 using Posts.DomainEntities.Entities;
 using Posts.Services.Interfaces;
@@ -15,9 +16,9 @@ namespace Posts.Services.Services
             _commentsRepository = entityRepository;
         }
 
-        public IList<Comment> GetByPostId(int postId)
+        public async Task<IList<Comment>> GetByPostId(int postId)
         {
-            return _commentsRepository.GetByPostId(postId);
+            return await _commentsRepository.GetByPostId(postId);
         }
     }
 }

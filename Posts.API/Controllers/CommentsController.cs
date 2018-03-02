@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Posts.API.Controllers.Base;
@@ -19,54 +20,54 @@ namespace Posts.API.Controllers
         }
 
         [HttpGet]
-        public ActionResult Get(int postId)
+        public async Task<ActionResult> Get(int postId)
         {
-            var entities = _commentsService.GetByPostId(postId);
+            var entities = await _commentsService.GetByPostId(postId);
 
             var models = Mapper.Map<IList<CommentModel>>(entities);
 
-            return Json(models);
+            return Ok(models);
         }
 
         [HttpGet("{id}")]
-        public ActionResult Get(int postId, int id)
+        public async Task<ActionResult> Get(int postId, int id)
         {
-            var entity = Service.Get(id);
+            var entity = await Service.Get(id);
 
             var model = Mapper.Map<CommentModel>(entity);
 
-            return Json(model);
+            return Ok(model);
         }
 
         [HttpPost]
-        public ActionResult Post(int postId, [FromBody]CommentModel model)
+        public async Task<ActionResult> Post(int postId, [FromBody]CommentModel model)
         {
             var entity = Mapper.Map<Comment>(model);
             entity.PostId = postId;
 
-            Service.Create(entity);
+            await Service.Create(entity);
 
-            return Json(new { success = true });
+            return Ok(new { success = true });
         }
 
         [HttpPut("{id}")]
-        public ActionResult Put(int postId, int id, [FromBody]CommentModel model)
+        public async Task<ActionResult> Put(int postId, int id, [FromBody]CommentModel model)
         {
             var entity = Mapper.Map<Comment>(model);
             entity.Id = id;
             entity.PostId = postId;
 
-            Service.Update(entity);
+            await Service.Update(entity);
 
-            return Json(new { success = true });
+            return Ok(new { success = true });
         }
 
         [HttpDelete("{id}")]
-        public virtual ActionResult Delete(int postId, int id)
+        public async Task<ActionResult> Delete(int postId, int id)
         {
-            Service.Delete(id);
+            await Service.Delete(id);
 
-            return Json(new { success = true });
+            return Ok(new { success = true });
         }
     }
 }

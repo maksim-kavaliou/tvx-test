@@ -27,7 +27,7 @@ namespace Posts.API.Controllers.Base
 
             var models = Mapper.Map<IList<TModel>>(entities);
 
-            return Json(models);
+            return Ok(models);
         }
 
         protected async Task<ActionResult> GetActionAsync(int id)
@@ -36,7 +36,7 @@ namespace Posts.API.Controllers.Base
 
             var model = Mapper.Map<TModel>(entity);
 
-            return Json(model);
+            return Ok(model);
         }
 
         protected async Task<ActionResult> PostActionAsync(TModel model)
@@ -45,7 +45,7 @@ namespace Posts.API.Controllers.Base
 
             await Service.Create(entity);
 
-            return Json(new {success = true});
+            return Ok(new {success = true});
         }
 
         protected async Task<ActionResult> PutActionAsync(int id, TModel model)
@@ -55,14 +55,14 @@ namespace Posts.API.Controllers.Base
 
             await Service.Update(entity);
 
-            return Json(new { success = true });
+            return Ok(new { success = true });
         }
 
         protected async Task<ActionResult> DeleteActionAsync(int id)
         {
             await Service.Delete(id);
 
-            return Json(new { success = true });
+            return Ok(new { success = true });
         }
     }
 }
