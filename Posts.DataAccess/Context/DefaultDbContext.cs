@@ -5,6 +5,10 @@ namespace Posts.DataAccess.Context
 {
     public class DefaultDbContext : DbContext
     {
+        public DefaultDbContext()
+        {
+        }
+
         public DefaultDbContext(DbContextOptions options) : base(options)
         {
         }
