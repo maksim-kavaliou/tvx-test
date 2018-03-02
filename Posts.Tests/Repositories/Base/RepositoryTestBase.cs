@@ -6,10 +6,10 @@ namespace Posts.Tests.Repositories.Base
 {
     public class RepositoryTestBase
     {
-        public DbContextOptions GetInMemoryOptions(string databaseName)
+        public DbContextOptions GetInMemoryOptions(string databaseName = null)
         {
             return new DbContextOptionsBuilder<DefaultDbContext>()
-                .UseInMemoryDatabase(databaseName)
+                .UseInMemoryDatabase(databaseName ?? Guid.NewGuid().ToString())
                 .Options;
         }
 

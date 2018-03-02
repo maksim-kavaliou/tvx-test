@@ -1,7 +1,6 @@
-﻿using System;
-using System.Linq;
-using Posts.DataAccess.Repositories;
+﻿using Posts.DataAccess.Repositories;
 using Posts.DomainEntities.Entities;
+using Posts.Tests.Common;
 using Posts.Tests.Repositories.Base;
 using Xunit;
 
@@ -9,16 +8,11 @@ namespace Posts.Tests.Repositories
 {
     public class PostsRepositoryTests : RepositoryTestBase
     {
-        private const string CreateWritesDbName = "Posts_Create_writes_to_database";
-        private const string UpdateWritesDbName = "Posts_Update_writes_to_database";
-        private const string DeleteDropsDbName = "Posts_Delete_drops_from_database";
-        private const string GetListRetrievesDbName = "Posts_GetList_retrieves_from_database";
-
-        [Fact]
+       [Fact]
         public void Create_Writes_To_Database()
         {
-            var options = GetInMemoryOptions(CreateWritesDbName);
-            var post = CreateEntity();
+            var options = GetInMemoryOptions();
+            var post = EntityBuilder.CreatePostEntity();
 
             // run "Create"
             RunDbContext(options, async context =>
@@ -30,15 +24,15 @@ namespace Posts.Tests.Repositories
             RunDbContext(options, async context =>
             {
                 var restoredPost = await new PostsRepository(context).Get(post.Id);
-                AssertEntity(post, restoredPost);
+                AssertPostEntity(post, restoredPost);
             });
         }
 
         [Fact]
         public void Update_Write_To_Database()
         {
-            var options = GetInMemoryOptions(UpdateWritesDbName);
-            var post = CreateEntity();
+            var options = GetInMemoryOptions();
+            var post = EntityBuilder.CreatePostEntity();
 
             // run "Create"
             RunDbContext(options, async context =>
@@ -47,7 +41,7 @@ namespace Posts.Tests.Repositories
             });
 
             // run "Update"
-            var updatedPost = CreateEntity();
+            var updatedPost = EntityBuilder.CreatePostEntity();
             updatedPost.Id = post.Id;
 
             RunDbContext(options, async context =>
@@ -60,7 +54,7 @@ namespace Posts.Tests.Repositories
             {
                 var restoredPost =  await new PostsRepository(context).Get(post.Id);
 
-                AssertEntity(updatedPost, restoredPost);
+                AssertPostEntity(updatedPost, restoredPost);
                 // create on was not changed
                 Assert.Equal(post.CreatedOn, restoredPost.CreatedOn);
                 // modified on changed on update
@@ -71,14 +65,14 @@ namespace Posts.Tests.Repositories
         [Fact]
         public void GetList_Retrieves_From_Database()
         {
-            var options = GetInMemoryOptions(GetListRetrievesDbName);
+            var options = GetInMemoryOptions();
 
             // run "Create"
             RunDbContext(options, async context =>
             {
                 var repository = new PostsRepository(context);
-                await repository.Create(CreateEntity());
-                await repository.Create(CreateEntity());
+                await repository.Create(EntityBuilder.CreatePostEntity());
+                await repository.Create(EntityBuilder.CreatePostEntity());
             });
 
             // assert from another context
@@ -93,9 +87,9 @@ namespace Posts.Tests.Repositories
         [Fact]
         public void Delete_Drops_From_Database()
         {
-            var options = GetInMemoryOptions(DeleteDropsDbName);
+            var options = GetInMemoryOptions();
 
-            var post = CreateEntity();
+            var post = EntityBuilder.CreatePostEntity();
 
             // run "Create"
             RunDbContext(options, async context =>
@@ -118,17 +112,7 @@ namespace Posts.Tests.Repositories
             });
         }
 
-        private Post CreateEntity()
-        {
-            return new Post()
-            {
-                Author = Guid.NewGuid().ToString(),
-                Content = Guid.NewGuid().ToString(),
-                Title = Guid.NewGuid().ToString()
-            };
-        }
-
-        private void AssertEntity(Post sourse, Post target)
+        private void AssertPostEntity(Post sourse, Post target)
         {
             Assert.Equal(sourse.Author, target.Author);
             Assert.Equal(sourse.Content, target.Content);
