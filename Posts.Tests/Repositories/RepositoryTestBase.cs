@@ -9,7 +9,7 @@ namespace Posts.Tests.Repositories
         public DbContextOptions GetInMemoryOptions(string databaseName)
         {
             return new DbContextOptionsBuilder<DefaultDbContext>()
-                .UseInMemoryDatabase(databaseName: databaseName)
+                .UseInMemoryDatabase(databaseName)
                 .Options;
         }
 

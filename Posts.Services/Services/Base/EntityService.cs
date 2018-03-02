@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Posts.DataAccess.Interfaces.Base;
 using Posts.DomainEntities.Entities.Base;
 using Posts.Services.Interfaces.Base;
@@ -15,29 +16,29 @@ namespace Posts.Services.Services.Base
             Repository = entityRepository;
         }
 
-        public T Get(int id)
+        public async Task<T> Get(int id)
         {
-            return Repository.Get(id);
+            return await Repository.Get(id);
         }
 
-        public IList<T> GetList()
+        public async Task<IList<T>> GetList()
         {
-            return Repository.GetList();
+            return await Repository.GetList();
         }
 
-        public T Create(T entity)
+        public async Task<T> Create(T entity)
         {
-            return Repository.Create(entity);
+            return await Repository.Create(entity);
         }
 
-        public void Update(T entity)
+        public async Task Update(T entity)
         {
-            Repository.Update(entity);
+            await Repository.Update(entity);
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            Repository.Delete(id);
+            await Repository.Delete(id);
         }
     }
 }

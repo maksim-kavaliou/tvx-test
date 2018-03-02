@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
+using System.Collections.Generic;
 
 namespace Posts.DataAccess.Migrations
 {
@@ -17,6 +18,7 @@ namespace Posts.DataAccess.Migrations
                     Author = table.Column<string>(nullable: false),
                     Content = table.Column<string>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: false),
                     Title = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
@@ -33,6 +35,7 @@ namespace Posts.DataAccess.Migrations
                     Author = table.Column<string>(nullable: false),
                     Content = table.Column<string>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: false),
                     PostId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

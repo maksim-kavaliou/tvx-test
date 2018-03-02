@@ -12,8 +12,6 @@ namespace Posts.DomainEntities.Entities
 
         public string Author { get; set; }
 
-        public DateTime CreatedOn { get; set; }
-
         public virtual ICollection<Comment> Comments { get; set; }
     }
 }

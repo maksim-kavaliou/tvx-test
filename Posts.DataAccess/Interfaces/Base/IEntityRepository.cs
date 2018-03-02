@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Posts.DomainEntities.Entities.Base;
 
 namespace Posts.DataAccess.Interfaces.Base
 {
     public interface IEntityRepository<T> where T : DomainEntity
     {
-        T Get(int id);
+        Task<T> Get(int id);
 
-        IList<T> GetList();
+        Task<IList<T>> GetList();
 
-        T Create(T entity);
+        Task<T> Create(T entity);
 
-        void Update(T entity);
+        Task Update(T entity);
 
-        void Delete(int id);
+        Task Delete(int id);
     }
 }

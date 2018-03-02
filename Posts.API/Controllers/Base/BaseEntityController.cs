@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Posts.DomainEntities.Entities.Base;
@@ -20,46 +21,46 @@ namespace Posts.API.Controllers.Base
             Service = service;
         }
 
-        protected ActionResult GetAction()
+        protected async Task<ActionResult> GetActionAsync()
         {
-            var entities = Service.GetList();
+            var entities = await Service.GetList();
 
             var models = Mapper.Map<IList<TModel>>(entities);
 
             return Json(models);
         }
 
-        protected ActionResult GetAction(int id)
+        protected async Task<ActionResult> GetActionAsync(int id)
         {
-            var entity = Service.Get(id);
+            var entity = await Service.Get(id);
 
             var model = Mapper.Map<TModel>(entity);
 
             return Json(model);
         }
 
-        protected ActionResult PostAction(TModel model)
+        protected async Task<ActionResult> PostActionAsync(TModel model)
         {
             var entity = Mapper.Map<TEntity>(model);
 
-            Service.Create(entity);
+            await Service.Create(entity);
 
             return Json(new {success = true});
         }
 
-        protected ActionResult PutAction(int id, TModel model)
+        protected async Task<ActionResult> PutActionAsync(int id, TModel model)
         {
             var entity = Mapper.Map<TEntity>(model);
             entity.Id = id;
 
-            Service.Update(entity);
+            await Service.Update(entity);
 
             return Json(new { success = true });
         }
 
-        protected ActionResult DeleteAction(int id)
+        protected async Task<ActionResult> DeleteActionAsync(int id)
         {
-            Service.Delete(id);
+            await Service.Delete(id);
 
             return Json(new { success = true });
         }

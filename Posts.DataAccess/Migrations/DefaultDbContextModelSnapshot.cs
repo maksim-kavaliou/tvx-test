@@ -31,6 +31,8 @@ namespace Posts.DataAccess.Migrations
 
                     b.Property<DateTime>("CreatedOn");
 
+                    b.Property<DateTime>("ModifiedOn");
+
                     b.Property<int>("PostId");
 
                     b.HasKey("Id");
@@ -50,6 +52,8 @@ namespace Posts.DataAccess.Migrations
                     b.Property<string>("Content");
 
                     b.Property<DateTime>("CreatedOn");
+
+                    b.Property<DateTime>("ModifiedOn");
 
                     b.Property<string>("Title");
 

@@ -10,7 +10,5 @@ namespace Posts.DomainEntities.Entities
         public string Author { get; set; }
 
         public string Content { get; set; }
-
-        public DateTime CreatedOn { get; set; }
     }
 }

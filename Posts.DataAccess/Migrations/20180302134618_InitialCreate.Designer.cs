@@ -11,7 +11,7 @@ using System;
 namespace Posts.DataAccess.Migrations
 {
     [DbContext(typeof(DefaultDbContext))]
-    [Migration("20180301185156_InitialCreate")]
+    [Migration("20180302134618_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,6 +32,8 @@ namespace Posts.DataAccess.Migrations
 
                     b.Property<DateTime>("CreatedOn");
 
+                    b.Property<DateTime>("ModifiedOn");
+
                     b.Property<int>("PostId");
 
                     b.HasKey("Id");
@@ -51,6 +53,8 @@ namespace Posts.DataAccess.Migrations
                     b.Property<string>("Content");
 
                     b.Property<DateTime>("CreatedOn");
+
+                    b.Property<DateTime>("ModifiedOn");
 
                     b.Property<string>("Title");
 

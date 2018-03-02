@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Posts.DataAccess.Context;
 using Posts.DataAccess.Interfaces.Base;
@@ -19,39 +19,46 @@ namespace Posts.DataAccess.Repositories.Base
             EntitySet = DbContext.Set<T>();
         }
 
-        public T Get(int id)
+        public async Task<T> Get(int id)
         {
-            var result = EntitySet.FirstOrDefault(e => e.Id == id);
+            var result = await EntitySet.FirstOrDefaultAsync(e => e.Id == id);
 
             return result;
         }
 
-        public IList<T> GetList()
+        public async Task<IList<T>> GetList()
         {
-            var result = EntitySet.ToList();
+            var result = await EntitySet.ToListAsync();
 
             return result;
         }
 
-        public T Create(T entity)
+        public async Task<T> Create(T entity)
         {
             EntitySet.Add(entity);
-            DbContext.SaveChanges();
+            await DbContext.SaveChangesAsync();
 
             return entity;
         }
 
-        public void Update(T entity)
+        public async Task Update(T entity)
         {
-            EntitySet.Attach(entity).State = EntityState.Modified;
-            DbContext.SaveChanges();
+            var original = await EntitySet.FindAsync(entity.Id);
+
+            // field can't be changed
+            entity.CreatedOn = original.CreatedOn;
+
+            DbContext.Entry(original).CurrentValues.SetValues(entity);
+            DbContext.Entry(original).State = EntityState.Modified;
+
+            await DbContext.SaveChangesAsync();
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
             var entity = EntitySet.Find(id);
             EntitySet.Remove(entity);
-            DbContext.SaveChanges();
+            await DbContext.SaveChangesAsync();
         }
     }
 }

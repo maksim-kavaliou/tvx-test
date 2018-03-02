@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Posts.API.Controllers.Base;
 using Posts.DomainEntities.Entities;
@@ -15,33 +16,33 @@ namespace Posts.API.Controllers
         }
 
         [HttpGet]
-        public ActionResult Get()
+        public async Task<ActionResult> Get()
         {
-            return GetAction();
+            return await GetActionAsync();
         }
 
         [HttpGet("{id}")]
-        public virtual ActionResult Get(int id)
+        public virtual async Task<ActionResult> Get(int id)
         {
-            return GetAction(id);
+            return await GetActionAsync(id);
         }
 
         [HttpPost]
-        public virtual ActionResult Post([FromBody]PostModel model)
+        public virtual async Task<ActionResult> Post([FromBody]PostModel model)
         {
-            return PostAction(model);
+            return await PostActionAsync(model);
         }
 
         [HttpPut("{id}")]
-        public virtual ActionResult Put(int id, [FromBody]PostModel model)
+        public virtual async Task<ActionResult> Put(int id, [FromBody]PostModel model)
         {
-            return PutAction(id, model);
+            return await PutActionAsync(id, model);
         }
 
         [HttpDelete("{id}")]
-        public virtual ActionResult Delete(int id)
+        public virtual async Task<ActionResult> Delete(int id)
         {
-            return DeleteAction(id);
+            return await DeleteActionAsync(id);
         }
     }
 }
