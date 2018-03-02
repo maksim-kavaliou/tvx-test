@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Posts.DataAccess.Context;
 
-namespace Posts.Tests.Repositories
+namespace Posts.Tests.Repositories.Base
 {
     public class RepositoryTestBase
     {
