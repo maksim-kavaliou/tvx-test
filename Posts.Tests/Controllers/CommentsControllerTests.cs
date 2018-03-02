@@ -12,11 +12,11 @@ using Xunit;
 
 namespace Posts.Tests.Controllers
 {
-    public class PostsControllerTests
+    public class CommentsControllerTests
     {
         private readonly HttpClient _client;
 
-        public PostsControllerTests()
+        public CommentsControllerTests()
         {
             var server = new TestServer(new WebHostBuilder()
                 .UseStartup<TestStartup>());
@@ -24,31 +24,30 @@ namespace Posts.Tests.Controllers
         }
 
         [Fact]
-        public async Task Routing_To_PostsGet_Test()
+        public async Task Routing_To_CommentsGet_Test()
         {
-            var response = await _client.GetAsync("/api/posts");
+            var response = await _client.GetAsync("/api/posts/5/comments");
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
             var content = await response.Content.ReadAsStringAsync();
-            var contentArray = JsonConvert.DeserializeObject<List<PostModel>>(content);
+            var contentArray = JsonConvert.DeserializeObject<List<CommentModel>>(content);
 
             Assert.NotNull(contentArray);
             Assert.True(contentArray.Count > 0);
         }
 
         [Fact]
-        public async Task Routing_To_PostsGetById_Test()
+        public async Task Routing_To_CommentsGetById_Test()
         {
-            var response = await _client.GetAsync("/api/posts/5");
+            var response = await _client.GetAsync("/api/posts/5/comments/2");
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
             var content = await response.Content.ReadAsStringAsync();
-            var contentObject = JsonConvert.DeserializeObject<PostModel>(content);
+            var contentObject = JsonConvert.DeserializeObject<CommentModel>(content);
 
             Assert.NotNull(contentObject);
-            Assert.NotNull(contentObject.Title);
             Assert.NotNull(contentObject.Author);
             Assert.NotNull(contentObject.Content);
         }
@@ -56,9 +55,9 @@ namespace Posts.Tests.Controllers
         [Theory]
         [InlineData("empty", HttpStatusCode.BadRequest)]
         [InlineData("random", HttpStatusCode.OK)]
-        public async Task Routing_To_PostsPost_ValidateModel_Test(string modelType, HttpStatusCode statusCode)
+        public async Task Routing_To_CommentsPost_ValidateModel_Test(string modelType, HttpStatusCode statusCode)
         {
-            var response = await _client.PostAsync("/api/posts", ContentHelper.AsJson(EntityBuilder.PostModelResolver[modelType]()));
+            var response = await _client.PostAsync("/api/posts/5/comments", ContentHelper.AsJson(EntityBuilder.CommentModelResolver[modelType]()));
 
             Assert.Equal(statusCode, response.StatusCode);
 
@@ -71,9 +70,9 @@ namespace Posts.Tests.Controllers
         [Theory]
         [InlineData("empty", HttpStatusCode.BadRequest, 3)]
         [InlineData("random", HttpStatusCode.OK, 4)]
-        public async Task Routing_To_PostsPut_ValidateModel_Test(string modelType, HttpStatusCode statusCode, int i)
+        public async Task Routing_To_CommentsPut_ValidateModel_Test(string modelType, HttpStatusCode statusCode, int i)
         {
-            var response = await _client.PutAsync($"/api/posts/{i}", ContentHelper.AsJson(EntityBuilder.PostModelResolver[modelType]()));
+            var response = await _client.PutAsync($"/api/posts/5/comments/{i}", ContentHelper.AsJson(EntityBuilder.CommentModelResolver[modelType]()));
 
             Assert.Equal(statusCode, response.StatusCode);
 
@@ -84,9 +83,9 @@ namespace Posts.Tests.Controllers
         }
 
         [Fact]
-        public async Task Routing_To_PostsDelete_Test()
+        public async Task Routing_To_CommentsDelete_Test()
         {
-            var response = await _client.DeleteAsync("/api/posts/5");
+            var response = await _client.DeleteAsync("/api/posts/5/comments/2");
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 

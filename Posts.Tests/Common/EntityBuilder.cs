@@ -11,7 +11,13 @@ namespace Posts.Tests.Common
         {
             { "empty", () => new PostModel()},
             { "random", CreatePostModel}
-        }; 
+        };
+
+        public static Dictionary<string, Func<CommentModel>> CommentModelResolver = new Dictionary<string, Func<CommentModel>>()
+        {
+            { "empty", () => new CommentModel()},
+            { "random", CreateCommentModel}
+        };
 
         public static Post CreatePostEntity()
         {
@@ -40,6 +46,15 @@ namespace Posts.Tests.Common
                 Author = Guid.NewGuid().ToString(),
                 Content = Guid.NewGuid().ToString(),
                 Title = Guid.NewGuid().ToString()
+            };
+        }
+
+        public static CommentModel CreateCommentModel()
+        {
+            return new CommentModel()
+            {
+                Author = Guid.NewGuid().ToString(),
+                Content = Guid.NewGuid().ToString()
             };
         }
     }
