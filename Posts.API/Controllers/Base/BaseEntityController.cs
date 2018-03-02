@@ -33,7 +33,7 @@ namespace Posts.API.Controllers.Base
         }
 
         // GET: api/BaseEntity/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public ActionResult Get(int id)
         {
             var entity = Service.Get(id);
@@ -45,7 +45,7 @@ namespace Posts.API.Controllers.Base
         
         // POST: api/BaseEntity
         [HttpPost]
-        public ActionResult Post([FromBody]PostModel model)
+        public ActionResult Post([FromBody]TModel model)
         {
             var entity = Mapper.Map<TEntity>(model);
 
@@ -56,7 +56,7 @@ namespace Posts.API.Controllers.Base
         
         // PUT: api/BaseEntity/5
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody]PostModel model)
+        public ActionResult Put(int id, [FromBody]TModel model)
         {
             var entity = Mapper.Map<TEntity>(model);
 

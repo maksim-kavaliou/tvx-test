@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Posts.DataAccess.Context;
 using Posts.DataAccess.Interfaces;
 using Posts.DataAccess.Repositories;
@@ -40,9 +34,11 @@ namespace Posts.API
 
             // repositories
             services.AddScoped<IPostsRepository, PostsRepository>();
+            services.AddScoped<ICommentsRepository, CommentsRepository>();
 
             // services
             services.AddScoped<IPostsService, PostsService>();
+            services.AddScoped<ICommentsService, CommentsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
