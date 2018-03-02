@@ -3,7 +3,6 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Posts.DomainEntities.Entities.Base;
 using Posts.Services.Interfaces.Base;
-using Posts.Web.Core.Models;
 using Posts.Web.Core.Models.Base;
 
 namespace Posts.API.Controllers.Base
@@ -21,9 +20,7 @@ namespace Posts.API.Controllers.Base
             Service = service;
         }
 
-        // GET: api/BaseEntity
-        [HttpGet]
-        public ActionResult Get()
+        protected ActionResult GetAction()
         {
             var entities = Service.GetList();
 
@@ -32,9 +29,7 @@ namespace Posts.API.Controllers.Base
             return Json(models);
         }
 
-        // GET: api/BaseEntity/5
-        [HttpGet("{id}")]
-        public ActionResult Get(int id)
+        protected ActionResult GetAction(int id)
         {
             var entity = Service.Get(id);
 
@@ -42,10 +37,8 @@ namespace Posts.API.Controllers.Base
 
             return Json(model);
         }
-        
-        // POST: api/BaseEntity
-        [HttpPost]
-        public ActionResult Post([FromBody]TModel model)
+
+        protected ActionResult PostAction(TModel model)
         {
             var entity = Mapper.Map<TEntity>(model);
 
@@ -53,21 +46,18 @@ namespace Posts.API.Controllers.Base
 
             return Json(new {success = true});
         }
-        
-        // PUT: api/BaseEntity/5
-        [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody]TModel model)
+
+        protected ActionResult PutAction(int id, TModel model)
         {
             var entity = Mapper.Map<TEntity>(model);
+            entity.Id = id;
 
             Service.Update(entity);
 
             return Json(new { success = true });
         }
-        
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+
+        protected ActionResult DeleteAction(int id)
         {
             Service.Delete(id);
 
