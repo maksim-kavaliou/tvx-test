@@ -1,10 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using Posts.DomainEntities.Entities;
+using Posts.Web.Core.Models;
 
 namespace Posts.Tests.Common
 {
     public static class EntityBuilder
     {
+        public static Dictionary<string, Func<PostModel>> PostModelResolver = new Dictionary<string, Func<PostModel>>()
+        {
+            { "empty", () => new PostModel()},
+            { "random", CreatePostModel}
+        }; 
+
         public static Post CreatePostEntity()
         {
             return new Post()
@@ -22,6 +30,16 @@ namespace Posts.Tests.Common
                 Author = Guid.NewGuid().ToString(),
                 Content = Guid.NewGuid().ToString(),
                 PostId = postId
+            };
+        }
+
+        public static PostModel CreatePostModel()
+        {
+            return new PostModel()
+            {
+                Author = Guid.NewGuid().ToString(),
+                Content = Guid.NewGuid().ToString(),
+                Title = Guid.NewGuid().ToString()
             };
         }
     }

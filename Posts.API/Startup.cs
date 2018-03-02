@@ -32,6 +32,23 @@ namespace Posts.API
                 .AddMvc(options => options.Filters.Add(typeof(ValidationActionFilter)))
                 .AddFluentValidation(fvc => fvc.RegisterValidatorsFromAssemblyContaining<PostModelValidator>());
 
+            ConfigureCustomServices(services);
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
+            app.UseMvc();
+        }
+
+        public virtual void ConfigureCustomServices(IServiceCollection services)
+        {
+            // automapper
             services.AddAutoMapper(typeof(MappingProfile));
 
             // EF context
@@ -45,17 +62,6 @@ namespace Posts.API
             // services
             services.AddScoped<IPostsService, PostsService>();
             services.AddScoped<ICommentsService, CommentsService>();
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
-            app.UseMvc();
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Posts.Tests.Repositories
             RunDbContext(options, async context =>
             {
                 var restoredComments = await new CommentsRepository(context).GetByPostId(post.Id);
-                AssertCommentEntity(comment, restoredComments.First());
+                AssertHelper.AssertCommentEntity(comment, restoredComments.First());
             });
         }
 
@@ -60,7 +60,7 @@ namespace Posts.Tests.Repositories
                 var restoredComments = await new CommentsRepository(context).GetByPostId(post.Id);
                 var newComment = restoredComments.First();
 
-                AssertCommentEntity(updatedComment, newComment);
+                AssertHelper.AssertCommentEntity(updatedComment, newComment);
                 // create on was not changed
                 Assert.Equal(comment.CreatedOn, newComment.CreatedOn);
                 // modified on changed on update
@@ -96,12 +96,6 @@ namespace Posts.Tests.Repositories
 
                 Assert.Equal(0, comments.Count);
             });
-        }
-
-        private void AssertCommentEntity(Comment sourse, Comment target)
-        {
-            Assert.Equal(sourse.Author, target.Author);
-            Assert.Equal(sourse.Content, target.Content);
         }
     }
 }

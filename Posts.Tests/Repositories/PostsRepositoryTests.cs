@@ -1,5 +1,4 @@
 ﻿using Posts.DataAccess.Repositories;
-using Posts.DomainEntities.Entities;
 using Posts.Tests.Common;
 using Posts.Tests.Repositories.Base;
 using Xunit;
@@ -24,7 +23,7 @@ namespace Posts.Tests.Repositories
             RunDbContext(options, async context =>
             {
                 var restoredPost = await new PostsRepository(context).Get(post.Id);
-                AssertPostEntity(post, restoredPost);
+                AssertHelper.AssertPostEntity(post, restoredPost);
             });
         }
 
@@ -54,7 +53,7 @@ namespace Posts.Tests.Repositories
             {
                 var restoredPost =  await new PostsRepository(context).Get(post.Id);
 
-                AssertPostEntity(updatedPost, restoredPost);
+                AssertHelper.AssertPostEntity(updatedPost, restoredPost);
                 // create on was not changed
                 Assert.Equal(post.CreatedOn, restoredPost.CreatedOn);
                 // modified on changed on update
@@ -110,13 +109,6 @@ namespace Posts.Tests.Repositories
 
                 Assert.Null(postResult);
             });
-        }
-
-        private void AssertPostEntity(Post sourse, Post target)
-        {
-            Assert.Equal(sourse.Author, target.Author);
-            Assert.Equal(sourse.Content, target.Content);
-            Assert.Equal(sourse.Title, target.Title);
         }
     }
 }
